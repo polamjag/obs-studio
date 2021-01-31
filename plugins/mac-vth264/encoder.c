@@ -24,6 +24,7 @@ extern const double NSAppKitVersionNumber;
 #define NSAppKitVersionNumber10_8 1187
 
 #define APPLE_H264_ENC_ID_HW "com.apple.videotoolbox.videoencoder.h264.gva"
+#define APPLE_H264_ENC_ID_HW_EXTRA "com.apple.videotoolbox.videoencoder.ave.avc"
 #define APPLE_H264_ENC_ID_SW "com.apple.videotoolbox.videoencoder.h264"
 
 // Get around missing symbol on 10.8 during compilation
@@ -995,7 +996,9 @@ void register_encoders()
 
 	for (size_t i = 0; i < vt_encoders.num; i++) {
 		if (strcmp(vt_encoders.array[i].id, APPLE_H264_ENC_ID_HW) ==
-		    0) {
+			    0 ||
+		    strcmp(vt_encoders.array[i].id,
+			   APPLE_H264_ENC_ID_HW_EXTRA) == 0) {
 			info.id = "vt_h264_hw";
 			info.get_name = vt_h264_getname_hw;
 			info.create = vt_h264_create_hw;
