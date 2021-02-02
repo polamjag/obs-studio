@@ -522,6 +522,11 @@ static void *vt_h264_create_hw(obs_data_t *settings, obs_encoder_t *encoder)
 	return vt_h264_create(settings, encoder, APPLE_H264_ENC_ID_HW);
 }
 
+static void *vt_h264_create_hw_extra(obs_data_t *settings, obs_encoder_t *encoder)
+{
+    return vt_h264_create(settings, encoder, APPLE_H264_ENC_ID_HW_EXTRA);
+}
+
 static void *vt_h264_create_sw(obs_data_t *settings, obs_encoder_t *encoder)
 {
 	return vt_h264_create(settings, encoder, APPLE_H264_ENC_ID_SW);
@@ -1001,7 +1006,8 @@ void register_encoders()
 			   APPLE_H264_ENC_ID_HW_EXTRA) == 0) {
 			info.id = "vt_h264_hw";
 			info.get_name = vt_h264_getname_hw;
-			info.create = vt_h264_create_hw;
+			info.create = strcmp(vt_encoders.array[i].id,
+                                 APPLE_H264_ENC_ID_HW_EXTRA) == 0 ? vt_h264_create_hw_extra : vt_h264_create_hw;
 			obs_register_encoder(&info);
 		} else if (strcmp(vt_encoders.array[i].id,
 				  APPLE_H264_ENC_ID_SW) == 0) {
